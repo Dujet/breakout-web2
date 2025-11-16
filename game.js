@@ -1,27 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Breakout Skeleton</title>
-    <style>
-      canvas {
-        background: #000;
-        display: block;
-        margin: 0 auto;
-        outline: 5px solid #fff;
-      }
-
-      body {
-        background: rgb(27, 29, 54);
-      }
-    </style>
-  </head>
-  <body>
-    <canvas id="gameCanvas" width="640" height="480"></canvas>
-
-    <script>
-      const canvas = document.getElementById("gameCanvas");
+const canvas = document.getElementById("gameCanvas");
       const ctx = canvas.getContext("2d");
 
       let gameStarted = false;
@@ -394,6 +371,3 @@
       }
 
       gameLoop();
-    </script>
-  </body>
-</html>
