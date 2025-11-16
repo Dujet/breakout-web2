@@ -1,6 +1,7 @@
 const canvas = document.getElementById("gameCanvas");
       const ctx = canvas.getContext("2d");
 
+      // Deklaracije varijabli za stanje igre
       let gameStarted = false;
       let gameEnded = false;
       let gameWon = false;
@@ -12,6 +13,7 @@ const canvas = document.getElementById("gameCanvas");
         highScore = parseInt(highScore, 10);
       }
 
+      // Deklaracije objekata igre
       const brickGrid = {
         rows: 5,
         cols: 10,
@@ -146,6 +148,7 @@ const canvas = document.getElementById("gameCanvas");
         });
       }
 
+      // Funkcije za iscrtavanje objekata ili ekrana
       function drawPaddle() {
         const grad = ctx.createLinearGradient(
           paddle.x,
@@ -202,6 +205,7 @@ const canvas = document.getElementById("gameCanvas");
         }
       }
 
+      // Računanje sudara loptice i cigle
       function checkBrickCollision(b) {
         if (b.status === 0) return false;
 
@@ -212,6 +216,7 @@ const canvas = document.getElementById("gameCanvas");
           ball.y < b.y + brick.height &&
           ball.y + ball.size > b.y
         ) {
+            // Računanje preklapanja na svakoj strani
           const overlapLeft = ball.x + ball.size - b.x;
           const overlapRight = b.x + brick.width - ball.x;
           const overlapTop = ball.y + ball.size - b.y;
@@ -224,7 +229,7 @@ const canvas = document.getElementById("gameCanvas");
             overlapBottom
           );
 
-          // Flip direction based on the smallest overlap
+          // Promjena smjera loptice na osnovu najmanjeg preklapanja
           if (minOverlap === overlapLeft) {
             ball.dx = -Math.abs(ball.dx);
           } else if (minOverlap === overlapRight) {
@@ -340,6 +345,7 @@ const canvas = document.getElementById("gameCanvas");
         gameStarted = false;
       }
 
+      // Glavna funkcija za iscrtavanje svih objekata igre
       function render() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawPaddle();
@@ -349,6 +355,7 @@ const canvas = document.getElementById("gameCanvas");
         highScoreText();
       }
 
+      // Nespretno implementirana glavna petlja igre
       function gameLoop() {
         if (gameWon) {
           render();
