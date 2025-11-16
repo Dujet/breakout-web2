@@ -105,7 +105,7 @@
       function update() {
         if (score === brickGrid.rows * brickGrid.cols) {
           gameEnded = true;
-            gameWon = true;
+          gameWon = true;
           gameWonScreen();
           return;
         }
@@ -161,8 +161,24 @@
         }
       }
 
+      function darkerColor(color) {
+        return color.replace(/rgb\((\d+), (\d+), (\d+)\)/, (match, r, g, b) => {
+          return `rgb(${Math.floor(r * 0.3)}, ${Math.floor(
+            g * 0.3
+          )}, ${Math.floor(b * 0.3)})`;
+        });
+      }
+
       function drawPaddle() {
-        ctx.fillStyle = "#fff";
+        const grad = ctx.createLinearGradient(
+          paddle.x,
+          canvas.height - paddle.height - paddle.paddleOffset,
+          paddle.x + paddle.width,
+          canvas.height - paddle.paddleOffset
+        );
+        grad.addColorStop(0, "lightgray");
+        grad.addColorStop(1, "darkgray");
+        ctx.fillStyle = grad;
         ctx.fillRect(
           paddle.x,
           canvas.height - paddle.height - paddle.paddleOffset,
@@ -172,7 +188,15 @@
       }
 
       function drawBall() {
-        ctx.fillStyle = "#fff";
+        const grad = ctx.createLinearGradient(
+          ball.x,
+          ball.y,
+          ball.x + ball.size,
+          ball.y + ball.size
+        );
+        grad.addColorStop(0, "white");
+        grad.addColorStop(1, "gray");
+        ctx.fillStyle = grad;
         ctx.fillRect(ball.x, ball.y, ball.size, ball.size);
       }
 
@@ -180,13 +204,22 @@
         for (let r = 0; r < brickGrid.rows; r++) {
           for (let c = 0; c < brickGrid.cols; c++) {
             if (bricks[r][c].status === 1) {
-              ctx.fillStyle = bricks[r][c].color;
-              ctx.fillRect(
-                bricks[r][c].x,
-                bricks[r][c].y,
-                brick.width,
-                brick.height
+              const b = bricks[r][c];
+
+              const grad = ctx.createLinearGradient(
+                b.x,
+                b.y,
+                b.x + brick.width,
+                b.y + brick.height
               );
+              grad.addColorStop(0, b.color); // base color
+              grad.addColorStop(1, darkerColor(b.color)); // darker edge
+              ctx.fillStyle = grad;
+              ctx.fillRect(b.x, b.y, brick.width, brick.height);
+
+              // Edge highlight
+              ctx.strokeStyle = "white";
+              ctx.strokeRect(b.x, b.y, brick.width, brick.height);
             }
           }
         }
